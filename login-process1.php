@@ -69,12 +69,12 @@
     $cl=curl_exec($ch);
     $fb_data=json_decode($cl);
     
-    $fbidvalue=$fb_data->id;
+    $fbid=$fb_data->id;
     $name=$fb_data->name;
     $first_name=$fb_data->first_name;
     $last_name=$fb_data->last_name;
     $email=$fb_data->email;
-    echo "<br>".$fbidvalue."<br>".$name."<br>".$first_name."<br>".$last_name."<br>".$email;
+    echo "<br>".$fbid."<br>".$name."<br>".$first_name."<br>".$last_name."<br>".$email;
     
 
 
@@ -89,13 +89,14 @@
     $password="pass";
     $dbname="fblikes";
     
+    $reg_user_table = "reg_users";
+
     $db = new mysqli($host, $user, $password, $dbname, $port, $socket)
         or die ('Could not connect to the database server' . mysqli_connect_error());
 
 
     //Querying Database to find if registered before.
-   
-    $query="SELECT * FROM reg_users where fbid ='$fbidvalue' ";
+    $query="SELECT * FROM `$reg_user_table` WHERE '$reg_user_table`.`fbid`= `$fbid` ";
     $result = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
     
 
@@ -103,9 +104,9 @@
     if (!$result->num_rows)
     {
         $counter=0;        
-        $query ="INSERT INTO reg_users
+        $query ="INSERT INTO '$reg_user_table'
                     (
-                    `fbid`,
+                    `Fbid`,
                     `display_name`,
                     `first_name`,
                     `last_name`,
@@ -113,12 +114,13 @@
                     `counter`)
                     VALUES
                     (
-                     '$fbidvalue',
-                     '$name',
-                     '$first_name',
-                     '$last_name',
-                     '$email',
-                     '$counter')";
+                     `$fbid`,
+                     `$name`,
+                     `$first_name`,
+                     `$last_name`,
+                     `$email`,
+                     `$counter`
+                    )";
 
             $db->query($query) or die ('There was an error Inserting Data into Databases [' . $db->error . ']');
     }
@@ -131,7 +133,8 @@
     session_start();
     $_SESSION['access_token']=$access_token;
     $_SESSION['userid']=$fbid;
-
+    
+    
     
     //______________________________________________________________________________________________________________________________
     //Redirecting User to dashboard

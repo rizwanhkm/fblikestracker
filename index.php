@@ -17,7 +17,7 @@
         <button onclick="redirect()" value="Login">login</button>
             
         </div>
-    
+    <?php echo"hello"; ?>
     </body>
 
 </html>
