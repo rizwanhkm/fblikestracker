@@ -3,10 +3,10 @@
 session_start();
 include './leaderboard.php';
 
-$userid=$_SESSION['userid'];
-echo "Hello".$userid;
+$userid=$_SESSION['access_token'];
+echo "Hello ".$userid;
 
-if(!isset($_SESSION['userid']))
+if(!isset($_SESSION['access_token']))
 {
     ?>
             <script type="text/javascript">

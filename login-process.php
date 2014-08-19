@@ -69,12 +69,12 @@
     $cl=curl_exec($ch);
     $fb_data=json_decode($cl);
     
-    $fbidvalue=$fb_data->id;
+    $fbid=$fb_data->id;
     $name=$fb_data->name;
     $first_name=$fb_data->first_name;
     $last_name=$fb_data->last_name;
     $email=$fb_data->email;
-    echo "<br>".$fbidvalue."<br>".$name."<br>".$first_name."<br>".$last_name."<br>".$email;
+    echo "<br>".$fbid."<br>".$name."<br>".$first_name."<br>".$last_name."<br>".$email;
     
 
 
@@ -95,7 +95,7 @@
 
     //Querying Database to find if registered before.
    
-    $query="SELECT * FROM reg_users where fbid ='$fbidvalue' ";
+    $query="SELECT * FROM reg_users where fbid ='$fbid' ";
     $result = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
     
 
@@ -113,12 +113,12 @@
                     `counter`)
                     VALUES
                     (
-                     '$fbidvalue',
+                     '$fbid',
                      '$name',
                      '$first_name',
                      '$last_name',
                      '$email',
-                     '$counter')";
+                     '$counter' )";
 
             $db->query($query) or die ('There was an error Inserting Data into Databases [' . $db->error . ']');
     }
@@ -132,11 +132,12 @@
     $_SESSION['access_token']=$access_token;
     $_SESSION['userid']=$fbid;
 
-    
+  echo "<br>".$_SESSION['access_token']." ".$_SESSION['userid']  ;
+   
     //______________________________________________________________________________________________________________________________
     //Redirecting User to dashboard
 
-    header("Location: ./user-dashboard.php");
+ header("Location: ./user-dashboard.php");
      
     //______________________________________________________________________________________________________________________________
 
