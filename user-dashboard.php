@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 include './leaderboard.php';
 
 $userid=$_SESSION['userid'];
@@ -29,6 +29,8 @@ $userid=$_SESSION['userid'];
 
 echo "Your Referal Link is <a href = \"http://localhost/fblikes/likes.php?$userid\">http://localhost/fblikes/likes.php?$userid ";
 
+?>
+<a href="logout.php">Log Out</a>
 
 
 
