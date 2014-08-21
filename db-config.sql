@@ -4,6 +4,8 @@ CREATE TABLE `likes` (
   `sl_no` int(11) NOT NULL,
   `referrer_id` varchar(45) DEFAULT NULL,
   `invitees_id` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `profile_pic` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`sl_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
