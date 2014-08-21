@@ -2,28 +2,11 @@
     <head>
         <link rel="stylesheet" href="style.css" />
 
-    <script type="text/javascript">
-        function redirect()
-            {
-                window.location="http://likestracker.com/index.php";
-            }
-    </script>
-    </head>
+        </head>
     <body>
         <?php
-        session_start();
-        $fbid=$_SESSION['fbid'];
-        $access_token=$_SESSION['access_token'];
         
-        if(!isset($_SESSION['fbid']))
-        {
-            ?>
-                    <script type="text/javascript">
-                        alert("Session Not initiated Properly");
-                        setTimeout(redirect(), 1000);
-                    </script>
-            <?php
-        }
+        include 'session-check.php';
 
         include './leaderboard.php';
         require 'connect.php';
