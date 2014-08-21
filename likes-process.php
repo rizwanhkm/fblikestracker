@@ -17,7 +17,7 @@
         //-----------------------------------------------------------------------------------------------------------------------
         //User Denied Permission.... 
         //Redirecting to the likes pa
-?>
+        ?>
         <script type="text/javascript">
              function redirect()
              {
@@ -26,17 +26,14 @@
              alert("You have denied permissions for the app. Redirecting to Likes Page");
              setTimeout(redirect(),1000);
         </script>
-<?
+        <?php
         die() ;
         //_______________________________________________________________________________________________________________________
     }
     
     //___________________________________________________________________________________________________________________________
     //App details
-
     include 'app-details.php';
-    
-    
     //___________________________________________________________________________________________________________________________
     //getting the current page url for recieving access token
     
@@ -55,20 +52,17 @@
     //curling facebook graph api and getting access token
 
     $url = "https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=$current_url&client_secret=$app_secret&code=$code";
-    
-
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     $cl=curl_exec($ch);
     $access_token=substr($cl, 13,-16);
     
-        
-    
     //_______________________________________________________________________________________________________________________________
-    //Storing Data for current session
+    //add access_token to the current session
 
     $_SESSION['access_token']=$access_token;
     
+    //_______________________________________________________________________________________________________________________________
     //redirecting the user to like the page.
     header("Location: ./likethpage.php?fbid=$fbid");
     //______________________________________________________________________________________________________________________________
