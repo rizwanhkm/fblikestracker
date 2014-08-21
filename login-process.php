@@ -1,5 +1,5 @@
 <?php
-    
+    set_time_limit(0);
     error_reporting(1);
     
     //___________________________________________________________________________________________________________________________
@@ -17,7 +17,7 @@
         <script type="text/javascript">
              function redirect()
              {
-                 window.location = "http://localhost/fblikes/index.php";
+                 window.location = "http://likestracker.com/index.php";
              }
              alert("You have denied permissions for the app. Redirecting to Login Page");
              setTimeout(redirect(),1000);
@@ -30,10 +30,7 @@
     //___________________________________________________________________________________________________________________________
     //App details
 
-    $code= $_GET['code'];
-    $app_id='694159134003863';
-    $app_secret = 'f22c633354f1cadb27d1c72310eab37d';
-    
+    include 'app-details.php';
     
     
     //___________________________________________________________________________________________________________________________
@@ -54,16 +51,17 @@
     //curling facebook graph api and getting access token
 
     $url = "https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=$current_url&client_secret=$app_secret&code=$code";
+    
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     $cl=curl_exec($ch);
     $access_token=substr($cl, 13,-16);
-  
+    
     //_____________________________________________________________________________________________________________________________
     //getting user data from facebook
     
-    $url="https://graph.facebook.com/v2.1/me?fields=id,name,first_name,last_name,email&access_token=$access_token";   
+    $url="https://graph.facebook.com/v2.1/me?fields=id,name,first_name,last_name,email,picture.height(1000).width(1000)&access_token=$access_token";   
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     $cl=curl_exec($ch);
@@ -74,24 +72,23 @@
     $first_name=$fb_data->first_name;
     $last_name=$fb_data->last_name;
     $email=$fb_data->email;
-    echo "<br>".$fbid."<br>".$name."<br>".$first_name."<br>".$last_name."<br>".$email;
     
+    //Getting profile picture of the user and savig it as fbid.jpg
 
+    $profile_pic_url =$fb_data->picture->data->url;
+    $path_parts = pathinfo($profile_pic_url);
+    $extension = substr($path_parts['extension'], 0, strpos($path_parts['extension'], '?'));
+    $file_name="./images/$fbid.$extension";
+    $file = file_get_contents($profile_pic_url);
+    file_put_contents($file_name,$file);
 
+    echo $file_name;
+    
     //______________________________________________________________________________________________________________________________
     //Adding to Database
 
     //connecting to database
-    $host="localhost";
-    $port=3306;
-    $socket="";
-    $user="root";
-    $password="pass";
-    $dbname="fblikes";
-    
-    $db = new mysqli($host, $user, $password, $dbname, $port, $socket)
-        or die ('Could not connect to the database server' . mysqli_connect_error());
-
+    include 'connect.php';
 
     //Querying Database to find if registered before.
    
@@ -110,7 +107,9 @@
                     `first_name`,
                     `last_name`,
                     `email`,
-                    `counter`)
+                    `counter`,
+                    `profile_pic`
+                    )
                     VALUES
                     (
                      '$fbid',
@@ -118,7 +117,9 @@
                      '$first_name',
                      '$last_name',
                      '$email',
-                     '$counter' )";
+                     '$counter', 
+                     '$file_name'
+                     )";
 
             $db->query($query) or die ('There was an error Inserting Data into Databases [' . $db->error . ']');
     }
@@ -130,9 +131,9 @@
 
     session_start();
     $_SESSION['access_token']=$access_token;
-    $_SESSION['userid']=$fbid;
+    $_SESSION['fbid']=$fbid;
 
-  echo "<br>".$_SESSION['access_token']." ".$_SESSION['userid']  ;
+//    echo "<br>".$_SESSION['access_token']." ".$_SESSION['fbid']  ;
    
     //______________________________________________________________________________________________________________________________
     //Redirecting User to dashboard

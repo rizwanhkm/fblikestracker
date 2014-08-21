@@ -2,5 +2,5 @@
 session_start();
 session_destroy();
 
-header("Location: http://localhost/fblikes/index.php");
+header("Location: http://likestracker.com/index.php");
 ?>
