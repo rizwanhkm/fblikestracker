@@ -49,6 +49,9 @@
         
     //__________________________________________________________________________________________________________________________________
     //curling facebook graph api and getting access token
+    
+
+    $code= $_GET['code'];
 
     $url = "https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=$current_url&client_secret=$app_secret&code=$code";
     
