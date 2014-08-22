@@ -73,14 +73,9 @@
     $last_name=$fb_data->last_name;
     $email=$fb_data->email;
     
-    //Getting profile picture of the user and savig it as fbid.jpg
+    
 
-    $profile_pic_url =$fb_data->picture->data->url;
-    $path_parts = pathinfo($profile_pic_url);
-    $extension = substr($path_parts['extension'], 0, strpos($path_parts['extension'], '?'));
-    $file_name="./images/$fbid.$extension";
-    $file = file_get_contents($profile_pic_url);
-    file_put_contents($file_name,$file);
+    
 
     echo $file_name;
     
@@ -99,6 +94,16 @@
     //Adding to database if no entry is found..
     if (!$result->num_rows)
     {
+        
+        //Getting profile picture of the user and savig it as fbid.jpg
+        $profile_pic_url =$fb_data->picture->data->url;
+        $path_parts = pathinfo($profile_pic_url);
+        $extension = substr($path_parts['extension'], 0, strpos($path_parts['extension'], '?'));
+        $file_name="./images/$fbid.$extension";
+        $file = file_get_contents($profile_pic_url);
+        file_put_contents($file_name,$file);
+        
+        //Inserting into db.
         $counter=0;        
         $query ="INSERT INTO reg_users
                     (

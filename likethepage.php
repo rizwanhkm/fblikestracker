@@ -50,18 +50,15 @@
                     function clicked()
                     {
                         var xmlhttp = new XMLHttpRequest();
-                        if(xmlhttp.readyState==0||xmlhttp2.readyState==4)
+                        xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked="+(no_of_clicks%2),true);
+                        xmlhttp.send();
+                        xmlhttp.onreadystatechange=function()
                             {
-                                xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked="+(no_of_clicks%2),true);
-                                xmlhttp.send();
-                                xmlhttp.onreadystatechange=function()
-                                    {
-                                    if (xmlhttp.readyState==4 && xmlhttp2.status==200) 
-                                        {
-                                            var result = JSON.parse(xmlhttp.responseText);
-                                            getElementById('result').innerHTML = result.text;
-                                        }
-                                    }
+                            if (xmlhttp.readyState==4 && xmlhttp2.status==200) 
+                                {
+                                    var result = JSON.parse(xmlhttp.responseText);
+                                    getElementById('result').innerHTML = result.text;
+                                }
                             }
                     }
                     
@@ -71,7 +68,7 @@
                     FB.Event.subscribe('edge.create',
                             function(response) {
                                 no_of_clicks++;
-                                clicked();
+                                    clicked();
                                 getElementById('result').innerHTML = 'You liked the URL: ' + response;
                             }
                             );               
