@@ -1,11 +1,11 @@
 Fb like Tracker Readme File
 
 Contributors:
------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
 Rizwan
 
 Files
-------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 app-details.php: contains details of the app appid, app-secret
 
@@ -44,10 +44,7 @@ likesdbconnect.php: process ajax request sent by likethepage.php and
 user-dashboard.php: gives the referer his referal link
 
                     
--------------------------------------------------------------------------------------------------
-
-
-
+-------------------------------------------------------------------------------
 
 For FB like box to work, localhost must be changed to something else.. 
 Virtual host has been set up and changed to likestracker.com
