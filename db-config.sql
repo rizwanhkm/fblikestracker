@@ -1,8 +1,8 @@
 CREATE DATABASE `fblikes` ;
 
 CREATE TABLE `likes` (
-  `sl_no` int(11) NOT NULL,
-  `referrer_id` varchar(45) DEFAULT NULL,
+  `sl_no` int(11) NOT NULL AUTO_INCREMENT,
+  `referer_id` varchar(45) DEFAULT NULL,
   `invitees_id` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `profile_pic` varchar(45) DEFAULT NULL,
