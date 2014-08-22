@@ -1,5 +1,0 @@
-For FB like box to work, localhost must be changed to something else.. 
-Virtual host has been set up and changed to likestracker.com
-
-$fbid always id of referer
-$fbid_liker :id of liker
