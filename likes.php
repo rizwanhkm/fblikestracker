@@ -21,7 +21,7 @@
 <script>
         function redirect(){
 
-        window.location="https://www.facebook.com/dialog/oauth?client_id=694159134003863&redirect_uri=http://likestracker.com/likes-process.php&scope=public_profile,user_friends,user_likes";
+        window.location="https://www.facebook.com/dialog/oauth?client_id=694159134003863&redirect_uri=http://likestracker.com/likes-process.php&scope=public_profile,user_friends";
             }
         </script>
     <body onload="redirect();">
