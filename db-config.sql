@@ -6,8 +6,10 @@ CREATE TABLE `likes` (
   `invitees_id` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `profile_pic` varchar(45) DEFAULT NULL,
+  `liked` int(11) DEFAULT NULL,
   PRIMARY KEY (`sl_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `reg_users` (
   `fbid` varchar(45) NOT NULL,
