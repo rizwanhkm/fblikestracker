@@ -1,23 +1,56 @@
 <html>
     <head>
-    <link rel="text/stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style1.css"/>
         
         <script type="text/javascript">
             function redirect(){
 
         window.location="https://www.facebook.com/dialog/oauth?client_id=694159134003863&redirect_uri=http://likestracker.com/login-process.php&scope=public_profile,user_friends,email";
             }
+            
+            
+                    
         </script>
         
     </head>
-    <body>    
-        <div class="login_message">
-        For using this site Login with facebook:
-            <br>
-        <button onclick="redirect()" value="Login">login</button>
+    <body id='body'> 
+        <? 
+//            include 'leaderboard.php' 
+        ?>
+    
+       <div class="nav">
+        <ul class="left">
+           <li><a href="https://www.facebook.com/delta.nit.trichy"><img src="./images/delta.png"></a> </li>
+           <li><a href="leaderboard.php">Leaderboard</a> </li>
+           
+
             
+        </ul>
+        <ul class="right">
+            <li><a href="logout.php">Logout</a>
+                
+            </li>
+           
+           
+        </ul>
+        
+       </div>
+        
+        <div class="content">
+            
+            <div class="login_message">
+            Register For The likes Contest
+                <br><br>
+            
+            Login with facebook:
+            <br><br>
+            <button onclick="redirect()" value="Login" class="login">Login</button>
+
+            </div>
+
         </div>
-    <?php echo"hello"; ?>
+
+   
     </body>
 
 </html>
