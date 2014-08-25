@@ -2,6 +2,7 @@
 
 //_____________________________________________________________________________________________________________________________
 //Sessions Check
+session_start();
 
 if (!isset($_SESSION['fbid']))
 {
@@ -9,7 +10,8 @@ if (!isset($_SESSION['fbid']))
     //Sending Data back to 'likethepage'
     echo "{";
     echo "\"redirect\": 1";
-    echo "}";        
+    echo "}";       
+    die();
 }
 
 //_______________________________________________________________________________________________________________________________
@@ -23,7 +25,9 @@ $url="https://graph.facebook.com/v2.1/me?fields=id,name,picture.height(1000).wid
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 $cl=curl_exec($ch);
+
 $fb_data=json_decode($cl);
+
 $fbid_liker=$fb_data->id;
 $name_liker=$fb_data->name;
 
@@ -41,8 +45,9 @@ if ($liked==0)
       
     //Sending Data back to 'likethepage'
     echo "{";
-    echo "\"data\": \"You Have Not Liked The Page. \"";
+    echo "\"data\": \"$liked You Have Not Liked The Page. \"";
     echo "}";
+    die();
 }
 
 
@@ -55,7 +60,7 @@ else if ($liked==1)
     
 
     //Querying Database to find if registered before.
-
+    
     $query="SELECT * FROM reg_users where fbid ='$fbid_liker' ";
     $result = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
 
@@ -94,7 +99,7 @@ else if ($liked==1)
         $db->query($query) or die ('There was an error Inserting Data into Databases [' . $db->error . ']');
         //_____________________________________________________________________________________________________________________
     }
-    else if(!result1->num_rows)
+    else if(($result1->num_rows)==0)
     {
         //_____________________________________________________________________________________________________________________
         //Liker have Registered As Referer.. copying data from reg_users.
@@ -120,7 +125,7 @@ else if ($liked==1)
         $db->query($query) or die ('There was an error Inserting Data into Databases [' . $db->error . ']');
         //____________________________________________________________________________________________________________________
     }
-    else if(result1->num_rows)
+    else if($result1->num_rows>0)
     {
         //____________________________________________________________________________________________________________________
         //Liker liked and disliked before
@@ -132,8 +137,9 @@ else if ($liked==1)
     //________________________________________________________________________________________________________________________
     //Sending Data back to 'likethepage'
     echo "{";
-    echo "\"data\": \"You Have Liked The Page. \"";
+    echo "\"data\": \"$liked You Have Liked The Page. \"";
     echo "}";
+    die();  
         
 }
 

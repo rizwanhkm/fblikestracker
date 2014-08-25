@@ -45,51 +45,59 @@
                     //______________________________________________________________________________________________________________
                     //Sending Ajax Request when like button is clicked
                     
-//                    var no_of_clicks=0;
-//                    
-//                    function clicked(a)
-//                    {
-//                        var xmlhttp = new XMLHttpRequest();
-//                        if (a==1)
-//                        {
-//                                xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked=1",true);
-//                        }
-//                        else
-//                        {
-//                                xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked=0",true);
-//                        }
-//                        xmlhttp.send();
-//                        xmlhttp.onreadystatechange=function()
-//                            {
-//                            if (xmlhttp.readyState==4 && xmlhttp2.status==200) 
-//                                {
-//                                    var result = JSON.parse(xmlhttp.responseText);
-//                                    getElementById('result1').innerHTML = result.text;
-//                                }
-//                            }
-//                        
-//                    }
-//                    
+                    
+                    function clicked(a)
+                    {
+                        var xmlhttp = new XMLHttpRequest();
+                        if (a=='1')
+                        {
+                                xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked=1",true);
+                        }
+                        else
+                        {
+                                xmlhttp.open("GET","http://likestracker.com/likesdbconnect.php?liked=0",true);
+                        }
+                        xmlhttp.send();
+                        xmlhttp.onreadystatechange=function()
+                            {
+                            if (xmlhttp.readyState==4 && xmlhttp.status==200) 
+                                {
+                                    var result = JSON.parse(xmlhttp.responseText);
+                                    if ( result.redirect==1)
+                                    {   
+                                        alert('You Have Not Logged In');
+                                        window.location="http://likestracker.com/likes.php?fbid=<? echo $_SESSION['fbid'];?>";
+                                    }
+                                    document.getElementById('result').innerHTML += result.data;
+
+                                }
+                            }
+                        
+                    }
+                    
                     //______________________________________________________________________________________________________________
                     //Adding Evemt Listener to Like button
-                    var page_like_or_unlike_callback = function(url, html_element) {
-                      console.log("page_like_or_unlike_callback");
-                      console.log(url);
-                      console.log(html_element);
+                    var page_like= function() {
+                        alert('clicked');
+                        clicked('1');
+                    }
+                    var page_unlike= function() {
+                        alert('clicked');
+                        clicked('0');
                     }
 
                     // In your onload handler
                     var liked = function(){
                         alert('entered function');
-                    FB.Event.subscribe('edge.create', page_like_or_unlike_callback);
-                    FB.Event.subscribe('edge.remove', page_like_or_unlike_callback);
+                    FB.Event.subscribe('edge.create', page_like);
+                    FB.Event.subscribe('edge.remove', page_unlike);
                     }
                     
-                    document.onload = liked();
+                  
                 </script>
             
         </head>
-        <body>
+        <body onload=liked();>
         <div id="fb-root"></div>
                         <div id = result1 class="result1"></div>
             
