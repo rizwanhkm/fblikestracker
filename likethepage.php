@@ -78,17 +78,17 @@
                     //______________________________________________________________________________________________________________
                     //Adding Evemt Listener to Like button
                     var page_like= function() {
-                        alert('clicked');
+                        
                         clicked('1');
                     }
                     var page_unlike= function() {
-                        alert('clicked');
+                        
                         clicked('0');
                     }
 
                     // In your onload handler
                     var liked = function(){
-                        alert('entered function');
+                       
                     FB.Event.subscribe('edge.create', page_like);
                     FB.Event.subscribe('edge.remove', page_unlike);
                     }

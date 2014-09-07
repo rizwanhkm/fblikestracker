@@ -39,10 +39,10 @@
         <div class="content">
             
             <div class="login_message">
-            Register For The likes Contest
+            Register For The Facebook Likes Challenge
                 <br><br>
             
-            Login with facebook:
+            Login with Facebook
             <br><br>
             <button onclick="redirect()" value="Login" class="login">Login</button>
 

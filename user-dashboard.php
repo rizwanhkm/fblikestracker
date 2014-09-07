@@ -30,6 +30,8 @@
         include 'session-check.php';
 
 //        include './leaderboard.php';
+
+//        session_start();
         require 'connect.php';
         
         $query="SELECT * FROM reg_users where fbid ='$fbid' ";
