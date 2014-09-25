@@ -75,7 +75,7 @@
         </script>
 
     </head>
-    <body id='body'> 
+    <body id='body' onload='showdashboard()'> 
         <?php
         include 'app-details.php';
         include 'session-check.php';
