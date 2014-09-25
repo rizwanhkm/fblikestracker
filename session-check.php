@@ -9,10 +9,11 @@
                     <script type="text/javascript">
                         function redirect()
                             {
-                                window.location="http://likestracker.com/index.php";
+                                window.location="<?php echo $dirname;?>/index.php";
                             }
                         alert("Session Not initiated Properly");
                         setTimeout(redirect(), 1000);
                     </script>
             <?php
+        
         }

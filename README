@@ -1,53 +1,19 @@
 Fb like Tracker Readme File
 
-Contributors:
------------------------------------------------------------------------------
-Rizwan
+varibles to be configured in app-details.php:
+----------------------------------------------
+$dirname : url where the app is hosted ( the same should be given in facebook app settings)
+$likepageurl : url of the facebook page to be liked
 
-Files
-------------------------------------------------------------------------------
 
-app-details.php: contains details of the app appid, app-secret
+variables to be configured in connect.php:
+-------------------------------------------
+$hostname: database access address (usually the host url)
+$user: database userame
+$password: database password
+$dbname: name of database for the app
 
-connect.php: connect to db and selects db, contains username and passoword
+$reg_users: table name of table that stores the details of contestants
+$likes: table name of table that stores the data of the likers
 
-db-config.sql: contains sql querys to create db and tables require
 
-session-check.php: checks whether the session is still active.
-
-style.css: contains the styling parameters
-
-                ----------------------------------
-
-index.php: Contains the registration button
-
-login-process.php: process the fb permission and get the access token
-
-logout.php: destroys the current session. ie, forgets the access token.
-
-                -------------------------------------
-
-leaderboard.php leaderboard.js contains scipt to retrieve leaders from db
-
-                -------------------------------------
-likes.php: gets the referer id and redirects the liker for getting permission
-            from facebook
-
-likes-process.php: gets the access token and stores it in session
-
-likethepage.php: contains like box
-
-likesdbconnect.php: process ajax request sent by likethepage.php and 
-                    configures the database
-                --------------------------------------
-                
-user-dashboard.php: gives the referer his referal link
-
-                    
--------------------------------------------------------------------------------
-
-For FB like box to work, localhost must be changed to something else.. 
-Virtual host has been set up and changed to likestracker.com
-
-$fbid always id of referer
-$fbid_liker :id of liker

@@ -1,11 +1,12 @@
-<?php
+<?php 
+
     set_time_limit(0);
-    error_reporting(1);
-    
+    include 'app-details.php';
+    include 'connect.php';
+
     //___________________________________________________________________________________________________________________________
     //Checking whether user granted permissions to the app.
 
-        
     $error =$_GET['error'];
     $error_code = $_GET['error_code'];
     if ( $error == "access_denied" )
@@ -17,26 +18,20 @@
         <script type="text/javascript">
              function redirect()
              {
-                 window.location = "http://likestracker.com/index.php";
+                 window.location = "<?php echo $dirname;?>/index.php";
              }
              alert("You have denied permissions for the app. Redirecting to Login Page");
              setTimeout(redirect(),1000);
         </script>
-<?
+<?php
         die() ;
         //_______________________________________________________________________________________________________________________
     }
     
     //___________________________________________________________________________________________________________________________
-    //App details
-
-    include 'app-details.php';
-    
-    
-    //___________________________________________________________________________________________________________________________
     //getting the current page url for recieving access token
     
-    $current_url = 'http://';
+    $current_url="http://";
     
     if ($_SERVER["SERVER_PORT"] != "80") 
         {
@@ -52,18 +47,26 @@
     
 
     $code= $_GET['code'];
+//    echo $current_url."<br>";
+    
+    
 
     $url = "https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=$current_url&client_secret=$app_secret&code=$code";
+    
+//    echo $url."<br>";
     
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     $cl=curl_exec($ch);
+//    echo $cl;
     $access_token=substr($cl, 13,-16);
     
     //_____________________________________________________________________________________________________________________________
     //getting user data from facebook
-    
+
+//    echo $access_token;
+
     $url="https://graph.facebook.com/v2.1/me?fields=id,name,first_name,last_name,email,picture.height(1000).width(1000)&access_token=$access_token";   
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -83,11 +86,10 @@
     //Adding to Database
 
     //connecting to database
-    include 'connect.php';
 
     //Querying Database to find if registered before.
    
-    $query="SELECT * FROM reg_users where fbid ='$fbid' ";
+    $query="SELECT * FROM `$reg_users` where `fbid` ='$fbid' ";
     $result = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
     
 
@@ -105,7 +107,7 @@
         
         //Inserting into db.
         $counter=0;        
-        $query ="INSERT INTO reg_users
+        $query ="INSERT INTO `$reg_users`
                     (
                     `fbid`,
                     `display_name`,
@@ -137,12 +139,12 @@
     $_SESSION['access_token']=$access_token;
     $_SESSION['fbid']=$fbid;
 
-//    echo "<br>".$_SESSION['access_token']." ".$_SESSION['fbid']  ;
+//    echo "<br>".$_SESSION['access_token']."<br> ".$_SESSION['fbid']  ;
    
     //______________________________________________________________________________________________________________________________
     //Redirecting User to dashboard
 
- header("Location: ./user-dashboard.php");
+    header("Location: ./user-dashboard.php");
      
     //______________________________________________________________________________________________________________________________
 

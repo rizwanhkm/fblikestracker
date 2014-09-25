@@ -3,6 +3,7 @@
 //_____________________________________________________________________________________________________________________________
 //Sessions Check
 session_start();
+include 'app-details.php';
 
 if (!isset($_SESSION['fbid']))
 {
@@ -42,7 +43,7 @@ include 'connect.php';
 if ($liked==0)
 {
     //Liker disliked the page
-    $query="SELECT * FROM `likes` where `invitees_id` = '$fbid_liker'";
+    $query="SELECT * FROM `$likes` where `invitees_id` = '$fbid_liker'";
     $result = $db->query($query) or die ('There was an error Updating Data into Databases 1 [' . $db->error . ']');
     
     
@@ -62,27 +63,27 @@ if ($liked==0)
     }
 
     //User Data available in database.. Updating Database..
-    $query="UPDATE `likes` SET `liked` = 0 WHERE 'invitees_id' ='$fbid_liker' ";
+    $query="UPDATE `$likes` SET `liked` = 0 WHERE `invitees_id` ='$fbid_liker' ";
     $db->query($query) or die ('There was an error Updating Data into Databases 2 [' . $db->error . ']');
       
     //updating referer counter
     
-    $query="SELECT * FROM  `likes` where `invitees_id` ='$fbid_liker' ";
+    $query="SELECT * FROM  `$likes` where `invitees_id` ='$fbid_liker' ";
     $result = $db->query($query) or die ('There was an error during Database Entry 3 [' . $db->error . ']');
     $data_liker=$result->fetch_assoc();
+    $referer_id=$data_liker['referer_id'];
     
-    if($fbid==$data_liker['referer_id'])
-    {
-        //Checking if the user disliked the page from the same referer with which he liked.
-        $query="SELECT * FROM `reg_users` where fbid ='$fbid' ";
-        $result = $db->query($query) or die ('There was an error during Database Entry 4 [' . $db->error . ']');
-        $data_referer=$result->fetch_assoc();
-        $counter=$data_referer['counter'];
-        $counter--;
+   
+    //Checking if the user disliked the page from the same referer with which he liked.
+    $query="SELECT * FROM `$reg_users` where `fbid` ='$referer_id' ";
+    $result = $db->query($query) or die ('There was an error during Database Entry 4 [' . $db->error . ']');
+    $data_referer=$result->fetch_assoc();
+    $counter=$data_referer['counter'];
+    $counter--;
 
-        $query="UPDATE `reg_users` SET `counter` = '$counter'  WHERE `fbid` ='$fbid' ";
-        $db->query($query) or die ('There was an error Updating Data into Databases 5 [' . $db->error . ']');
-    }
+    $query="UPDATE `$reg_users` SET `counter` = '$counter'  WHERE `fbid` ='$referer_id' ";
+    $db->query($query) or die ('There was an error Updating Data into Databases 5 [' . $db->error . ']');
+
     die();
 }
 
@@ -95,10 +96,10 @@ else if ($liked==1)
 {
     //Querying Database to find if registered before.
     
-    $query="SELECT * FROM reg_users where fbid ='$fbid_liker' ";
+    $query="SELECT * FROM `$reg_users` where `fbid` ='$fbid_liker' ";
     $result = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
 
-    $query="SELECT * FROM likes where invitees_id ='$fbid_liker' ";
+    $query="SELECT * FROM `$likes` where `invitees_id` ='$fbid_liker' ";
     $result1 = $db->query($query) or die ('There was an error during Database Entry [' . $db->error . ']');
 
      if(!($result->num_rows+$result1->num_rows))
@@ -110,12 +111,12 @@ else if ($liked==1)
         $profile_pic_url =$fb_data->picture->data->url;
         $path_parts = pathinfo($profile_pic_url);
         $extension = substr($path_parts['extension'], 0, strpos($path_parts['extension'], '?'));
-        $file_name="./images/$fbid.$extension";
+        $file_name="./images/$fbid_liker.$extension";
         $file = file_get_contents($profile_pic_url);
         file_put_contents($file_name,$file);
 
         //Adding to Database
-        $query ="INSERT INTO likes
+        $query ="INSERT INTO `$likes`
                 (
                 `referer_id`,
                 `invitees_id`,
@@ -146,7 +147,7 @@ else if ($liked==1)
         $data=$result->fetch_assoc();
         $file_name=$data['profile_pic'];
 
-        $query ="INSERT INTO likes
+        $query ="INSERT INTO `$likes`
             (
             `referer_id`,
             `invitees_id`,
@@ -170,20 +171,20 @@ else if ($liked==1)
     {
         //____________________________________________________________________________________________________________________
         //Liker liked and disliked before
-        $query="UPDATE `likes` SET `liked` = 1, `referer_id`='$fbid' WHERE `invitees_id` ='$fbid_liker' ";
+        $query="UPDATE `$likes` SET `liked` = 1, `referer_id`='$fbid' WHERE `invitees_id` ='$fbid_liker' ";
         $db->query($query) or die ('There was an error Updating Data into Databases [' . $db->error . ']');
         //____________________________________________________________________________________________________________________
     }
 
     //Adding to counter of the referer
-    $query="SELECT * FROM reg_users where fbid ='$fbid' ";
+    $query="SELECT * FROM `$reg_users` where `fbid` ='$fbid' ";
     $result = $db->query($query) or die ('There was an error during Database Retrieval [' . $db->error . ']');
      
     $data_referer=$result->fetch_assoc();
     $counter=$data_referer['counter'];
     $counter++;
     
-    $query="UPDATE `reg_users` SET `counter` = '$counter'  WHERE `fbid` ='$fbid' ";
+    $query="UPDATE `$reg_users` SET `counter` = '$counter'  WHERE `fbid` ='$fbid' ";
     $db->query($query) or die ('There was an error Updating referer_data into Databases [' . $db->error . ']');
     
         

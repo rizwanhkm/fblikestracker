@@ -5,7 +5,8 @@
 
     //Checking whether session is initiated
     include 'session-check.php';
-    
+    include 'app-details.php';
+
     //___________________________________________________________________________________________________________________________
     //Checking whether user granted permissions for the app.
     
@@ -16,12 +17,12 @@
     {
         //-----------------------------------------------------------------------------------------------------------------------
         //User Denied Permission.... 
-        //Redirecting to the likes pa
+        //Redirecting to the likes page
         ?>
         <script type="text/javascript">
              function redirect()
              {
-                 window.location = "http://likestracker.com/likes.php?fbid=<?php echo $fbid ?>";
+                 window.location = "<?php echo $dirname; ?>/likes.php?fbid=<?php echo $fbid ?>";
              }
              alert("You have denied permissions for the app. Redirecting to Likes Page");
              setTimeout(redirect(),1000);
@@ -31,10 +32,7 @@
         //_______________________________________________________________________________________________________________________
     }
     
-    //___________________________________________________________________________________________________________________________
-    //App details
-    include 'app-details.php';
-    //___________________________________________________________________________________________________________________________
+        //___________________________________________________________________________________________________________________________
     //getting the current page url for recieving access token
     
     $current_url = 'http://';

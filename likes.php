@@ -1,5 +1,7 @@
 <?php
     
+    include 'app-details.php';
+
     //______________________________________________________________________________________________________________________________________
     //Getting Referall ID
     
@@ -9,19 +11,14 @@
     $_SESSION['referer']=$fbid;
     
     //This page redirects the user for getting permisions to get the likers likes and other details
-    
-
 ?>
-
-        
     
 
 <html >
-
 <script>
         function redirect(){
 
-        window.location="https://www.facebook.com/dialog/oauth?client_id=694159134003863&redirect_uri=http://likestracker.com/likes-process.php&scope=public_profile";
+        window.location="https://www.facebook.com/dialog/oauth?client_id=<?php echo $app_id;?>&redirect_uri=<?php echo $dirname;?>/likes-process.php&scope=public_profile";
             }
         </script>
     <body onload="redirect();">
