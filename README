@@ -2,6 +2,10 @@ Fb like Tracker Readme File
 
 varibles to be configured in app-details.php:
 ----------------------------------------------
+Before using the app , you need to register as facebook developer and create an app and get appid adnd app secret.
+
+$app_id: the app id you recieve in facebook app dashboard.
+$app_secret: You can find this in your facebook app dashboard.
 $dirname : url where the app is hosted ( the same should be given in facebook app settings)
 $likepageurl : url of the facebook page to be liked
 
